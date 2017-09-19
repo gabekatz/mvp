@@ -1,18 +1,21 @@
 angular.module('word-search')
-  .controller('gameCtrl', function($scope, randomWord, getUserStats) {
-    this.word = "Start";
-    this.input = "";
-    this.length = 3;
-    this.score = null;
-    this.counter = 0;
-    this.increase = 3;
-    this.timer = null;
-    this.timerShow = null;
-    this.lastScore = null;
-    this.highScore = null;
+  .controller('gameCtrl', function($scope, randomWord, getUserStats, updateUserStats) {
+    
+    this.resetGame = (lastScore) =>{
+      this.word = "Start";
+      this.input = "";
+      this.length = 3;
+      this.score = null;
+      this.counter = 0;
+      this.increase = 3;
+      this.timer = null;
+      this.timerShow = null;
+      this.lastScore = lastScore || null;
+      console.log(this.username, this.highScore)
+    }
 
     this.$onInit = () => {
-      getUserStats.fetch(this.changeHighScore)
+      this.resetGame()
     }
 
     this.changeHighScore = (data) =>{
@@ -60,22 +63,25 @@ angular.module('word-search')
         if (this.timer === null){
           this.timer = 6;
         }
-        this.timer -= 1
-        this.timerShow = parseInt(this.timer)
+        this.timer -= 0.1
+        this.timerShow = parseFloat(this.timer).toFixed(2);
         $scope.$apply()
-        console.log(this.timer)
         if (this.timer <= 0){ //game end
           clearInterval(time);
           $scope.results = true;
-          this.lastScore = this.score;
-          this.score = null;
+
+          this.resetGame(this.score)
+          if (this.lastScore > this.highScore) {
+            updateUserStats.update({name: this.username, score: this.lastScore});
+            this.highScore = this.lastScore
+          }
           alert(this.lastScore)
-          this.word = "Start";
-          $scope.inputText = ""
+          // this.word = "Start";
+          // $scope.inputText = ""
 
           $scope.$apply()
         }
-      }, 1000)
+      }, 100)
 
 
     }
@@ -85,6 +91,10 @@ angular.module('word-search')
     }
   })
   .component('game', {
+    bindings: {
+      username: "<",
+      highScore: "=",
+    },
     controller: 'gameCtrl',
     template: `
     <div>
@@ -93,6 +103,6 @@ angular.module('word-search')
     </div>
     <div>Score: {{ $ctrl.score }}</div>
     <div ng-model="timer">Timer: {{ $ctrl.timerShow }}</div>
-    <div class="scoreScreen" ng-show="results">score screen</div>
+    <div class="scoreScreen" ng-show="results">Last Score: {{$ctrl.lastScore}}</div>
     `
   })

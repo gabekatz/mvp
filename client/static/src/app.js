@@ -4,13 +4,6 @@ angular.module('word-search')
     $scope.gameShow = false;
     this.username = "";
     this.highScore = 0;
-    this.userSelect = () => {
-      this.username = prompt('Please input your username')
-    }
-    // this.$onInit= () =>{
-    //   this.userSelect();
-    //   getUserStats.fetch(this.updateUser, this.username);
-    // }
 
     this.initializeUser = () => {
       getUserStats.fetch(this.updateUser, $scope.username.toUpperCase());
@@ -34,7 +27,11 @@ angular.module('word-search')
     }
 
     this.showGame = () => {
-      $scope.gameShow = $scope.gameShow === true ? false : true;
+      if(this.username !== "") {
+        $scope.gameShow = $scope.gameShow === true ? false : true;
+      } else {
+        alert('Please enter a username');
+      }
     }
 
   })
@@ -47,11 +44,10 @@ angular.module('word-search')
       </div>
       <input placeholder="Enter Username" ng-model="username"></input>
       <button ng-click="$ctrl.initializeUser()">Submit</button>
-      <div class="personalScore"><p>{{$ctrl.highScore}}</p></div>
+      <div class="personalScore"><p>Your High Score: {{$ctrl.highScore}}</p></div>
       <button ng-click="$ctrl.showGame()">Begin Game</button>
       <div class="game" ng-show="gameShow">
-        <game></game>
+        <game data-username="$ctrl.username" data-high-score="$ctrl.highScore"></game>
       </div>
-
     `
   })

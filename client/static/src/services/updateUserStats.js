@@ -1,9 +1,12 @@
 angular.module('word-search')
 .service('updateUserStats', function($http){
-  this.update = (callback) => {
-    $http.put('/api/user')
+  this.update = (userStats, callback) => {
+    $http.put('/api/user', userStats)
       .then((data)=>{
-        callback(data);
+        console.log('user update: ', userStats)
+        if(callback){
+          callback(data);
+        }
       })
       .catch((err)=>{
         console.log(err);
