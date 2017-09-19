@@ -1,6 +1,10 @@
 angular.module('word-search')
-  .controller('gameCtrl', function($scope, randomWord, getUserStats, updateUserStats, updateHighScore) {
+  .controller('gameCtrl', function($scope, randomWord, getUserStats, updateUserStats, updateHighScore, getHighScore) {
     
+    this.getList = (data) => { //refactor to call this from app instead
+      this.highScores = data.data
+    }
+
     this.resetGame = (lastScore) =>{
       this.word = "Start";
       this.input = "";
@@ -52,7 +56,7 @@ angular.module('word-search')
           this.timerShow = parseInt(this.timer)
           this.word = randomWord.generate(this.length, this.wordChange)
         
-        } else {
+        } else { //incorrect input
           $scope.inputText = "";
         }
       }
@@ -71,13 +75,12 @@ angular.module('word-search')
           $scope.results = true;
 
           this.resetGame(this.score)
-          if (this.lastScore > this.highScore) {
+          if (this.lastScore > this.highScore) { //if personal high score is beater
             updateUserStats.update({name: this.username, score: this.lastScore});
             this.highScore = this.lastScore;
             updateHighScore.update()
+            getHighScore.fetch(this.getList)
           }
-
-
 
           alert(this.lastScore)
 

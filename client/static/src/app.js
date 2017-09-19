@@ -18,6 +18,7 @@ angular.module('word-search')
 
     this.initializeUser = () => {
       getUserStats.fetch(this.updateUser, $scope.username.toUpperCase());
+      $scope.username = "";
     }
 
     this.updateUser = (data) => {
@@ -37,6 +38,12 @@ angular.module('word-search')
       this.word = data.data;
     }
 
+    this.checkKey = (key) => {
+      if (key.which === 13){
+        this.initializeUser()
+      }
+    }
+
     this.showGame = () => {
       if(this.username !== "") {
         $scope.gameShow = $scope.gameShow === true ? false : true;
@@ -53,12 +60,15 @@ angular.module('word-search')
       <div class="highscore-table">
         <high-score-list data-high-scores="$ctrl.highScores"></high-score-list>
       </div>
-      <input placeholder="Enter Username" ng-model="username"></input>
-      <button ng-click="$ctrl.initializeUser()">Submit</button>
-      <div class="personalScore"><p>Your High Score: {{$ctrl.highScore}}</p></div>
+      <input placeholder="Enter Username" ng-model="username" ng-keypress="$ctrl.checkKey($event)"></input>
+      <button class="btn"  ng-click="$ctrl.initializeUser()">Submit</button>
+      <div class="personalScore">
+        <p>Player: {{$ctrl.username}} </p>
+        <p>Your High Score: {{$ctrl.highScore}}</p>
+      </div>
       <button ng-click="$ctrl.showGame()">Begin Game</button>
       <div class="game" ng-show="gameShow">
-        <game data-username="$ctrl.username" data-high-score="$ctrl.highScore"></game>
+        <game data-username="$ctrl.username" data-high-score="$ctrl.highScore" data-high-scores="ctrl.highScores"></game>
       </div>
     `
   })
