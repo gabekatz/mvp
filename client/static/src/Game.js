@@ -11,7 +11,7 @@ angular.module('word-search')
       this.length = 3;
       this.score = null;
       this.counter = 0;
-      this.increase = 3;
+      this.increase = 2;
       this.timer = null;
       this.timerShow = null;
       this.lastScore = lastScore || null;
@@ -43,7 +43,7 @@ angular.module('word-search')
           if (this.counter % 5 === 0) {
             this.length += 1
           }
-          if (this.counter % 3 === 0 && this.increase > 1) {
+          if (this.counter % 3 === 0 && this.increase > 0.5) {
             this.increase -= 0.25;
           }
 
@@ -102,12 +102,18 @@ angular.module('word-search')
     },
     controller: 'gameCtrl',
     template: `
-    <div>
-      <span class="randomWord">{{ $ctrl.word }}</span>
+    <div class="gameField">
+      <div class="block">
+        <p><span class="randomWord">{{ $ctrl.word }}</span></p>
+      </div>
+    </div>
+    <div class="inputField">
       <input placeholder="Type in start to begin" ng-model="inputText" ng-change="$ctrl.inputChange()"></input>
     </div>
-    <div>Score: {{ $ctrl.score }}</div>
-    <div ng-model="timer">Timer: {{ $ctrl.timerShow }}</div>
+    <div class="stats">
+      <div>Score: {{ $ctrl.score }}</div>
+      <div ng-model="timer">Timer: {{ $ctrl.timerShow }}</div>
+    <div/>
     <div class="scoreScreen" ng-show="results">Last Score: {{$ctrl.lastScore}}</div>
     `
   })

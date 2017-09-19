@@ -7,7 +7,47 @@ td {
   text-align: right;
 }
 
+.container {
+  margin: auto;
+  width: 90%;
+}
 
 .game {
-  left: 50%
+  margin: auto;
+  width: 50%;
+  align-content: center;
+}
+
+.begin {
+  margin: auto;
+  width: 50%;
+}
+
+.gameField {
+  display: block;
+  margin: auto;
+}
+
+.randomWord {
+font-size: 32px;
+display: inline;
+}
+
+.block {
+  height: 40px;
+  margin: 20px;
+  border: 2 solid black;
+}
+
+.inputField {
+  display: block;
+  width: 30%;
+}
+
+.highscore-table {
+  text-align: center;
+}
+
+.stats {
+  display: block;
 }
