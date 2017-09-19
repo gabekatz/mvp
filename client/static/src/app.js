@@ -14,6 +14,13 @@ angular.module('word-search')
   .component('app', {
     controller: 'appCtrl',
     template: `
-      {{$ctrl.word}}
+      <user> </user
+      <div className="highscore-table">
+        <highscore></highscore
+      </div>
+      <div className="game">
+        <game></game>
+      </div>
+
     `
   })

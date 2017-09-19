@@ -6,8 +6,13 @@ const Player = db.define('player', {
   name: Sequelize.STRING,
   score: Sequelize.INTEGER,
   rank: Sequelize.INTEGER,
-
 })
+
+// const User = db.define('user', {
+//   username: Sequelize.STRING,
+//   score: Sequelize.INTEGER,
+//   rank: Sequelize.INTEGER,
+// })
 
 Player.sync({force: true})
   .then(() => {
