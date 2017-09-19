@@ -3,7 +3,9 @@ angular.module('word-search')
   this.update = (callback) => {
     $http.put('/api/highScore')
       .then((data)=>{
-        callback(data);
+        if(callback){
+          callback(data);
+        }
       })
       .catch((err)=>{
         console.log(err);

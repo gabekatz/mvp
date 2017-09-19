@@ -1,9 +1,20 @@
 angular.module('word-search')
-  .controller('appCtrl', function(createUser, $scope, getUserStats) {
+  .controller('appCtrl', function(createUser, $scope, getUserStats, getHighScore) {
     word = "";
     $scope.gameShow = false;
     this.username = "";
     this.highScore = 0;
+
+    this.highScores = [];
+ 
+    this.getList = (data) => {
+      this.highScores = data.data
+    }
+
+    this.$onInit = () => {
+      getHighScore.fetch(this.getList)
+    }
+
 
     this.initializeUser = () => {
       getUserStats.fetch(this.updateUser, $scope.username.toUpperCase());
@@ -18,7 +29,7 @@ angular.module('word-search')
       } else {
         this.username = data.data.name;
         this.highScore = data.data.score;
-        console.log('NAME: ',data.data.name, 'DATA: ', data)
+        console.log('NAME: ', data.data.name, 'DATA: ', data)
       }
     }
 
@@ -40,7 +51,7 @@ angular.module('word-search')
     template: `
       <user> </user>
       <div class="highscore-table">
-        <highscore></highscore
+        <high-score-list data-high-scores="$ctrl.highScores"></high-score-list>
       </div>
       <input placeholder="Enter Username" ng-model="username"></input>
       <button ng-click="$ctrl.initializeUser()">Submit</button>

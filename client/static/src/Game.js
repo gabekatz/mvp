@@ -1,5 +1,5 @@
 angular.module('word-search')
-  .controller('gameCtrl', function($scope, randomWord, getUserStats, updateUserStats) {
+  .controller('gameCtrl', function($scope, randomWord, getUserStats, updateUserStats, updateHighScore) {
     
     this.resetGame = (lastScore) =>{
       this.word = "Start";
@@ -73,11 +73,13 @@ angular.module('word-search')
           this.resetGame(this.score)
           if (this.lastScore > this.highScore) {
             updateUserStats.update({name: this.username, score: this.lastScore});
-            this.highScore = this.lastScore
+            this.highScore = this.lastScore;
+            updateHighScore.update()
           }
+
+
+
           alert(this.lastScore)
-          // this.word = "Start";
-          // $scope.inputText = ""
 
           $scope.$apply()
         }

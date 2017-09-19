@@ -3,6 +3,7 @@ angular.module('word-search')
     this.fetch = (callback) =>{
       $http.get('/api/highScore')
       .then((data)=>{
+        console.log('from inside getHighScore service: ', data)
         callback(data);
       })
       .catch((err)=>{
