@@ -1,9 +1,11 @@
 angular.module('word-search')
   .service('createUser', function($http){
-    this.fetch = (callback) => {
-      $http.post('/api/user')
+    this.fetch = (data, callback) => {
+      $http.post('/api/user', data)
         .then((data)=>{
-          callback(data);
+          if (callback){
+            callback(data);
+          }
         })
         .catch((err)=>{
           console.log(err);

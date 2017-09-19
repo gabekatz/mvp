@@ -13,8 +13,9 @@ module.exports = {
   },
 
   addPlayer: (req, res) => {
-    Player.create(req.body)
+    Player.create(req.body  )
     .then((data)=>{
+      console.log('from add player: ',req)
       res.status(201).send(data);
     })
     .catch((err)=>{
@@ -23,8 +24,14 @@ module.exports = {
   },
 
   getUser: (req, res) => {
-    Player.find(req.body.name)
+    // console.log('req', req)
+    Player.findOne({
+      where: {
+        name: req.query.name
+      }
+    })
       .then((data)=>{
+        console.log('FROM GET USER', req.query.name)
         res.status(200).send(data);
       })
       .catch((err)=>{
@@ -33,7 +40,11 @@ module.exports = {
   },
 
   updateUser: (req, res) => {
-    Player.update(req.body)
+    Player.update(req.body,{
+      where: {
+        name: req.body.name,
+      }
+    })
     .then((data)=>{
       res.status(202).send(data);
     })
